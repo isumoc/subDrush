@@ -60,16 +60,8 @@ class DrushAPI(object):
         Installed Packages, depending on the user's installation method.
         If either of those fail, check for system-wide Drush.
         """
-        if os.path.exists("%s/subDrush/lib/drush/drush"
-                          % sublime.packages_path()):
-            return "%s/subDrush/lib/drush/drush" % sublime.packages_path()
-        elif os.path.exists("%s/subDrush/lib/drush/drush"
-                            % sublime.installed_packages_path()):
-            return "%s/subDrush/lib/drush/drush" % \
-                sublime.installed_packages_path()
-        else:
-            print('subDrush: Using system-wide Drush install.')
-            return shutil.which('drush')
+        print('subDrush: Using system-wide Drush install.')
+        return shutil.which('drush')
 
     def load_command_info(self, command):
         """
