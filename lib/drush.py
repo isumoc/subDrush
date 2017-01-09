@@ -60,8 +60,8 @@ class DrushAPI(object):
         Installed Packages, depending on the user's installation method.
         If either of those fail, check for system-wide Drush.
         """
-        print('subDrush: Using system-wide Drush install.')
-        return shutil.which('drush')
+        print('subDrush: Using /usr/local/bin/drush.')
+        return '/usr/local/bin/drush'
 
     def load_command_info(self, command):
         """
