@@ -177,6 +177,7 @@ class DrushAPI(object):
             elif data['message'][0]['output']:
                 return data['message'][0]['output'].replace('\n', "\n")
             else:
+                print(data)
                 print('subDrush: Failed to get output!')
                 return 'Failed to get output!'
         except subprocess.CalledProcessError as e:
