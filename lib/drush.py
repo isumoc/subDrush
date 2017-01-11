@@ -247,31 +247,74 @@ class DrushAPI(object):
         """
         Returns the path to Drupal root, based on looking at self.working_dir
         """
-
+        if self.drupal_root:
+            return self.drupal_root
         if not self.working_dir:
             # If the working directory hasn't been set, return "drush"
             print('Working directory is not set, returning "drush"')
             return 'drush'
-     
-        # Use `drush dd` to see if we can get Drupal root that way.
-        command = []
-        command.append(self.get_drush_path())
-        command.append('dd')
-        command.append('--nocolor')
-        response = subprocess.Popen(command,
-                                    stdout=subprocess.PIPE,
-                                    cwd=self.working_dir
-                                    ).communicate()[0].decode('utf-8'
-                                                              ).strip('\n')
-        # If `drush dd` returns a directory, then return that.
-        if os.path.isdir(response) is True:
-            print("`drush dd` found a directory: %s" % response)
-            return response
+
+        bin = self.get_cache_bin(self.working_dir) + "/drupal_root"
+        if os.path.isfile(bin):
+            bin = open(bin, 'rb')
+            last_modified = os.path.getmtime(bin.name)
+            # If older than 24 hours, refresh cache.
+            if (time.time() - last_modified < 86400):
+                self.drupal_root = pickle.load(bin)
+                bin.close()
+                if os.path.isdir(self.drupal_root):
+                    print('Load Drupal root from cache %s' % self.drupal_root)
+                    return self.drupal_root
+            else:
+                print('Cache is expired!')
+                bin.close()
         else:
-            # Default to Drush cache bin.
-            print("Using 'drush' cache bin")
-            self.get_cache_bin('drush')
-            return 'drush'
+            print('Cache bin is not a file, cannot load.')
+
+        print('Searching for Drupal root in working dir')
+        matches = []
+        for root, dirnames, filenames in os.walk(self.working_dir):
+            for filename in fnmatch.filter(filenames, 'system.module'):
+                matches.append(os.path.join(root, filename))
+                break
+            if len(matches) > 0:
+                break
+        if len(matches) > 0:
+            # Get path to Drupal root
+            paths = matches[0].split('/')
+            # Ugly, but works
+            del(paths[-3:-1])
+            del(paths[-1])
+            drupal_root = "/".join(paths)
+            # Create a cache bin for the Drupal root
+            new_cache_bin = self.get_cache_bin(self.working_dir) + \
+                "/drupal_root"
+            # Save path to Drupal root in working dir cache
+            print('Saving drupal_root "%s" in cache' % drupal_root)
+            output = open(new_cache_bin, 'wb')
+            pickle.dump(drupal_root, output)
+            output.close()
+            return drupal_root
+        else:
+            # Use `drush dd` to see if we can get Drupal root that way.
+            command = []
+            command.append(self.get_drush_path())
+            command.append('dd')
+            command.append('--nocolor')
+            response = subprocess.Popen(command,
+                                        stdout=subprocess.PIPE,
+                                        cwd=self.working_dir
+                                        ).communicate()[0].decode('utf-8'
+                                                                  ).strip('\n')
+            # If `drush dd` returns a directory, then return that.
+            if os.path.isdir(response) is True:
+                print("`drush dd` found a directory: %s" % response)
+                return response
+            else:
+                # Default to Drush cache bin.
+                print("Using 'drush' cache bin")
+                self.get_cache_bin('drush')
+                return 'drush'
         return self.working_dir
 
     def get_cache_bin(self, bin):
