@@ -15,7 +15,7 @@ class DrushCacheClearCommand(sublime_plugin.WindowCommand):
     def run(self):
         self.drush_api = DrushAPI(self.window.active_view())
         sublime.status_message('Loading cache bins...')
-        self.args = self.drush_api.load_command_args('cache-clear')
+        self.args = self.drush_api.load_command_args('cc')
         self.window.show_quick_panel(
             self.args, self.command_execution, sublime.MONOSPACE_FONT)
 
