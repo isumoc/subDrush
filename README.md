@@ -1,28 +1,7 @@
 subDrush (Sublime Drush plugin)
 ===============================
-<img src="http://designhammer.com/sites/default/files/subdrush-package.png" align="right" alt="subDrush plugin">
 
 This is plugin for Sublime Text 3 (ST3) that exposes a subset of [Drush](https://drupal.org/project/drush) functionality to facilitate Drupal development.
-
-This is not an attempt to bring the entirety of Drush into Sublime Text. Instead the idea is that there are some commands that can be executed easily from within ST, such as clearing caches, getting values of variables, enabling or disabling modules and themes, etc. Such commands typically don't require numerous options and usually do not require additional user input to run. These kinds of commands will be added to subDrush - for other Drush commands, use your terminal.
-
-### Supported Commands
-
-| Command                     | Description                                               | Type   |
-|-----------------------------|-----------------------------------------------------------|--------|
-| `cache-clear`               | Clear a specific cache bin                                | core   |
-| `cache-clear all`           | Clear all caches                                          | core   |
-| `core-status`               | Provides a birds-eye view of the Drupal installation      | core   |
-| `watchdog-show`             | Displays the 10 most recent watchdog entries              | core   |
-| `variable-get`              | Displays the value of a Drupal variable                   | core   |
-| `cron`                      | Invokes cron for open Drupal directory                    | core   |
-| `php-eval`                  | Evaluates selected text in the bootstrapped Drupal site   | core   |
-| `php-script`                | Executes open buffer as PHP script after Drupal bootstrap | core   |
-| `pm-list`                   | Show a list of available extensions (modules and themes)  | core   |
-| `updatedb`                  | Run update.php on site                                    | core   |
-| `alias-edit`                | Edit the Drush aliases (current site or choose from list) | custom |
-| `Clear Sublime Drush cache` | Clears Sublime Drush internal cache                       | custom |
-
 
 ### Usage
 
