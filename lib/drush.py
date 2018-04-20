@@ -166,10 +166,6 @@ class DrushAPI(object):
         cmd.append('--nocolor')
         cmd.append('--backend')
 
-        # hack hack hack
-        my_env = os.environ
-        my_env["PATH"] = "/usr/local/sbin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/.composer/vendor/bin:/opt/X11/bin"
-
         print('subDrush: Call to Drush: %s' % ' '.join(cmd))
         try:
             backend_output = subprocess.check_output(cmd,
