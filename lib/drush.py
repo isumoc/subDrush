@@ -60,8 +60,10 @@ class DrushAPI(object):
         Installed Packages, depending on the user's installation method.
         If either of those fail, check for system-wide Drush.
         """
-        print('subDrush: Using /usr/local/bin/drush.')
-        return '/usr/local/bin/drush'
+        path_to_drush = os.path.abspath('drush')
+        print('subDrush: Using ', path_to_drush )
+        return path_to_drush
+
 
     def load_command_info(self, command):
         """
