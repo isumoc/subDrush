@@ -4,6 +4,10 @@
         "command": "drush_cache_clear"
     },
     {
+        "caption": "Drush: Set Theme Debug On",
+        "command": "drush_vset_theme_debug_on"
+    },
+    {
         "caption": "Drush: PHP-Eval (Evaluate PHP code after bootstrapping Drupal)",
         "command": "drush_eval"
     },
