@@ -1,4 +1,5 @@
 import os
+import shutil
 import pickle
 import hashlib
 import fnmatch
@@ -60,7 +61,7 @@ class DrushAPI(object):
         Installed Packages, depending on the user's installation method.
         If either of those fail, check for system-wide Drush.
         """
-        path_to_drush = os.path.abspath('drush')
+        path_to_drush = shutil.which('drush')
         print('subDrush: Using ', path_to_drush )
         return path_to_drush
 
